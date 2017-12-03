@@ -2,11 +2,11 @@ use Component;
 use Slang;
 
 component Item {
-	method render {
-		<li>
+    method render {
+        <li>
             {{$.props<data>}}
         </li>
-	}
+    }
 }
 
 component UlList {
