@@ -4,8 +4,17 @@ use nqp;
 
 sub create-element($type, *@data) is export {
     my %data = @data.classify: {$_ ~~ Pair ?? "pars" !! "children"};
-    #say "Element.new: :$type, :pars({%data<pars>}), :children({%data<children> // []})";
-    Element.new: :$type, :pars(%data<pars> // {}), :children(%data<children> // [])
+    Element.new:
+        :$type,
+        :pars(
+            |%data<pars>
+                .grep(*.defined)
+                .map(-> (:$key, :$value is copy) {
+                    $value = $value.() if $value ~~ Callable;
+                    $key => $value
+                }) // {}
+        ),
+        :children(%data<children> // [])
 }
 
 sub create-pair($key, $value) is export {
