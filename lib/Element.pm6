@@ -1,15 +1,16 @@
 use Component;
 class Element {
-    has $.type		is required;
+    has $.type      is required;
     has @.children;
     has %.pars;
 
     method !value($_) is hidden-from-backtrace {
-        when Component  { self!value(.render, $_)	}
-        when Element    { .render					}
-		when Positional	{ |.map: {self!value($_)}	}
-		when !.defined	{ Empty						}
-        default         { .say; .Str                   	}
+        when Component  { self!value(.render, $_)   }
+        when Element    { .render                   }
+        when Positional { |.map: {self!value($_)}   }
+        when !.defined  { Empty                     }
+        when Block      { .()                       }
+        default         { .Str                      }
     }
 
     method !translate-key($_) is hidden-from-backtrace {
@@ -25,10 +26,10 @@ class Element {
     }
 
     method render is hidden-from-backtrace {
-		my $comp =  MetamodelX::ComponentHOW.components{$!type};
-		if $comp ~~ Component {
-			return $comp.new(:props(%!pars), :@!children).render.render
-		}
+        my $comp =  MetamodelX::ComponentHOW.components{$!type};
+        if $comp ~~ Component {
+            return $comp.new(:props(%!pars), :@!children).render.render
+        }
         qq:to/END/;
         <{$!type}{(" " if %!pars > 0) ~ self!attrs}>
         {

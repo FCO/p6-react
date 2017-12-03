@@ -15,7 +15,6 @@ component UlList {
             {{
                 do for |$.props<items> -> $item {
                     <Item data={{$item}} />
-                    #<Item />
                 }
             }}
         </ul>
