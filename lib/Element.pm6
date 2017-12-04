@@ -9,7 +9,7 @@ class Element {
         when Element    { .render                   }
         when Positional { |.map: {self!value($_)}   }
         when !.defined  { Empty                     }
-        when Block      { .()                       }
+        when Block      { .name                     }
         default         { .Str                      }
     }
 

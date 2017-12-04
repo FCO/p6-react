@@ -3,8 +3,11 @@ grammar P6X {
     token word {
         \w+
     }
-    token attr {
+    token attr:sym<pair> {
         <attr-name=.word> '=' <value>
+    }
+    token attr:sym<bool> {
+        <attr-name=.word>
     }
     proto token value    {*                         }
     token value:sym<dbl> { '"' ~ '"' $<value>=.*?   }
@@ -42,7 +45,8 @@ grammar P6X {
 }
 
 class P6X::Action {
-    method attr($/) { make ~$<attr-name> => ~$<value><value> }
+    method attr:sym<pair>($/) { make ~$<attr-name> => ~$<value><value> }
+    method attr:sym<bool>($/) { make ~$<attr-name> => True }
     method tag:sym<open-close>($/) { self.tag: $/ }
     method tag:sym<unique>    ($/) { self.tag: $/ }
     method tag($/) {

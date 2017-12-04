@@ -1,6 +1,9 @@
+no precompilation;
 role Component {
     has %.props;
+    has %.state;
     method render() {...}
+    method setState(%!state) {say "rerender"}
 }
 
 class MetamodelX::ComponentHOW is Metamodel::ClassHOW {
