@@ -2,15 +2,15 @@ use Component;
 use Slang;
 
 component Item {
-	has $.name;
+    has $.name;
     method render {
         <li>{{$.name}}</li>
     }
 }
 
 component Test {
-	has $.name;
-	has $.list;
+    has $.name;
+    has $.list;
     method render {
         <div className="shopping-list">
             <h1>

@@ -2,7 +2,7 @@ use Component;
 use Slang;
 
 component Item {
-	has $.data;
+    has $.data;
     method render {
         <li>
             {{$.data}}
@@ -11,7 +11,7 @@ component Item {
 }
 
 component UlList {
-	has $.items;
+    has $.items;
     method render {
         <ul>
             {{
