@@ -5,7 +5,7 @@ use Component;
 use Slang;
 
 component Item {
-    has $.data;
+    has Str $.data;
     method render {
         <li>
             {{$.data}}
@@ -14,11 +14,11 @@ component Item {
 }
 
 component UlList {
-    has $.items;
+    has Str @.items;
     method render {
         <ul>
             {{
-                do for |$.items -> $item {
+                do for @.items -> $item {
                     <Item data={{$item}} />
                 }
             }}
