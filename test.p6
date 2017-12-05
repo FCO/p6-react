@@ -9,7 +9,7 @@ component Item {
 }
 
 component Test {
-    has Str $.name;
+    has Str $.name is required;
     has Str @.list;
     method render {
         <div className="shopping-list">
