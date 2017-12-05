@@ -7,18 +7,27 @@ sub create-element($type, *@data) is export {
     Element.new:
         :$type,
         :pars(
-            |%data<pars>
+            %data<pars>
                 .grep(*.defined)
                 .map(-> (:$key, :$value is copy) {
                     $value = $value.() if $value ~~ Callable;
                     $key => $value
-                }) // {}
+                })
+                // {}
         ),
-        :children(%data<children> // [])
+        :children(|%data<children> // [])
 }
 
-sub create-pair($key, $value) is export {
-    $key => $value
+proto create-pair($, |) is export {
+    *
+}
+
+multi create-pair($key, \value) {
+    $key => value
+}
+
+multi create-pair($key) {
+    $key => True
 }
 
 sub EXPORT {
@@ -27,7 +36,7 @@ sub EXPORT {
             \w+
         }
         token p6x-attr {
-            <p6x-attr-name=.p6x-word> '=' <p6x-value>
+            <p6x-attr-name=.p6x-word> [ '=' <p6x-value> ]?
         }
         proto token p6x-value    {*                             }
         token p6x-value:sym<dbl> { '"' ~ '"' $<p6x-value>=<-[">]>*    }
@@ -93,7 +102,8 @@ sub EXPORT {
                     :value(lk($/, "p6x-attr-name"))
             ;
 
-            $create-pair.push: lk($/, "p6x-value").made;
+            my $value = lk($/, "p6x-value");
+            $create-pair.push: .made with $value;
 
             $/.make: $create-pair
         }

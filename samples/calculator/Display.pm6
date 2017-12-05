@@ -2,10 +2,11 @@ use Component;
 use Slang;
 
 component Display {
+    has $.value;
     method render {
         <div className="component-display">
             <div>
-                {{$.props<value>}}
+                {{$.value}}
             </div>
         </div>
     }

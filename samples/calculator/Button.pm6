@@ -2,17 +2,21 @@ use Component;
 use Slang;
 
 component Button {
+    has $.orange;
+    has $.wide;
+    has $.name;
+    has &.handle-click;
     method render {
         sub handle-click {
-            self.setState: self.state;
+            &!handle-click($.name);
         }
 
         my $class-name = "component-button";
 
-        if $.props<orange>:exists {
+        with $.orange {
             $class-name ~= " orange";
         }
-        if $.props<wide>:exists {
+        with $.wide {
             $class-name ~= " wide";
         }
 
@@ -22,7 +26,7 @@ component Button {
             <button
                 onClick={{&handle-click}}
             >
-                {{$.props<name>}}
+                {{$.name}}
             </button>
         </div>
     }
