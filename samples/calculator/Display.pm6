@@ -2,7 +2,7 @@ use Component;
 use Slang;
 
 component Display {
-    has $.value;
+    has Str $.value;
     method render {
         <div className="component-display">
             <div>

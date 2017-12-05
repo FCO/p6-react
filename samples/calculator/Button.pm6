@@ -2,10 +2,10 @@ use Component;
 use Slang;
 
 component Button {
-    has $.orange;
-    has $.wide;
-    has $.name;
-    has &.handle-click;
+    has Bool    $.orange    = False;
+    has Bool    $.wide      = False;
+    has Str     $.name;
+    has         &.handle-click;
     method render {
         sub handle-click {
             &!handle-click($.name);
@@ -13,10 +13,10 @@ component Button {
 
         my $class-name = "component-button";
 
-        with $.orange {
+        if $.orange {
             $class-name ~= " orange";
         }
-        with $.wide {
+        if $.wide {
             $class-name ~= " wide";
         }
 
