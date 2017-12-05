@@ -2,18 +2,20 @@ use Component;
 use Slang;
 
 component Item {
+	has $.data;
     method render {
         <li>
-            {{$.props<data>}}
+            {{$.data}}
         </li>
     }
 }
 
 component UlList {
+	has $.items;
     method render {
         <ul>
             {{
-                do for |$.props<items> -> $item {
+                do for |$.items -> $item {
                     <Item data={{$item}} />
                 }
             }}
@@ -21,4 +23,4 @@ component UlList {
     }
 }
 
-say UlList.new(props => {:items<bla ble bli>}).render.render
+say UlList.new(:items<bla ble bli>).render.render

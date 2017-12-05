@@ -1,42 +1,37 @@
 use Component;
-use Element;
 use Slang;
-use P6X;
 
 component Item {
+	has $.name;
     method render {
-        p6x qq:to/END/;
-        <li>{$.props<name>}</li>
-        END
+        <li>{{$.name}}</li>
     }
 }
 
 component Test {
+	has $.name;
+	has $.list;
     method render {
-        p6x qq:to/END/;
         <div className="shopping-list">
             <h1>
-                Shopping List for {$.props<name>}
+                Shopping List for {{$.name}}
             </h1>
             <ul>
-                {
-                    do for |$.props<list> -> $item {
-                        "<Item name={$item} />"
+                {{
+                    do for |$.list -> $item {
+                        <Item name={{$item}} />
                     }
-                }
+                }}
             </ul>
         </div>
-        END
     }
 }
 
 component Parent {
     method render {
-        qq:p6x:to/END/;
-        <Test name="bla" list={<Instagram WhatsApp Oculus>} />
-        END
+        <Test name="bla" list={{"Instagram", "WhatsApp", "Oculus"}} />
     }
 }
 
-say Test.new(props => {:name<1234>, :list["Instagram", "WhatsApp", "Oculus"]}).render.render;
-#say Parent.new.render#.render;
+#say Test.new(props => {:name<1234>, :list["Instagram", "WhatsApp", "Oculus"]}).render.render;
+say Parent.new.render.render;
