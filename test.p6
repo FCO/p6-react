@@ -2,15 +2,15 @@ use Component;
 use Slang;
 
 component Item {
-    has $.name;
+    has Str $.name;
     method render {
         <li>{{$.name}}</li>
     }
 }
 
 component Test {
-    has $.name;
-    has $.list;
+    has Str $.name;
+    has Str @.list;
     method render {
         <div className="shopping-list">
             <h1>
@@ -18,7 +18,7 @@ component Test {
             </h1>
             <ul>
                 {{
-                    do for |$.list -> $item {
+                    do for @.list -> $item {
                         <Item name={{$item}} />
                     }
                 }}

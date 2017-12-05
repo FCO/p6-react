@@ -28,7 +28,11 @@ class Element {
     method render is hidden-from-backtrace {
         my $comp =  MetamodelX::ComponentHOW.components{$!type};
         if $comp ~~ Component {
-            return $comp.new(|%!pars, :@!children).render.render
+            my %pars;
+            for %!pars.kv -> \k, \v {
+                %pars{k} := v<>
+            }
+            return $comp.new(|%pars, :@!children).render.render
         }
         qq:to/END/;
         <{$!type}{(" " if %!pars > 0) ~ self!attrs}>
