@@ -33,5 +33,4 @@ component Parent {
     }
 }
 
-#say Test.new(props => {:name<1234>, :list["Instagram", "WhatsApp", "Oculus"]}).render.render;
 say Parent.new.render.render;
