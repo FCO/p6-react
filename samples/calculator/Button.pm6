@@ -2,10 +2,10 @@ use Component;
 use Slang;
 
 component Button {
-	has $.orange;
-	has $.wide;
-	has $.name;
-	has &.handle-click;
+    has $.orange;
+    has $.wide;
+    has $.name;
+    has &.handle-click;
     method render {
         sub handle-click {
             &!handle-click($.name);

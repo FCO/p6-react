@@ -2,7 +2,7 @@ use Component;
 use Slang;
 
 component ButtonPanel {
-	has &.handle-click;
+    has &.handle-click;
     method render {
         <div className="component-button-panel">
             <div>
