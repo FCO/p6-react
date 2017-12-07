@@ -11,7 +11,7 @@ multi trait_mod:<is>(Method $m, :$style!) is export {
 
 my UInt $id = 1;
 
-has Str $!className = "styled-{$*PID.fmt: "%x"}-{now.fmt: "%x"}-{($id++).fmt: "%x"}";
+has Str $!className = "{self.^name}-styled-{$*PID.fmt: "%x"}-{now.fmt: "%x"}-{($id++).fmt: "%x"}";
 
 method render {
     Element.new:

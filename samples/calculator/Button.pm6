@@ -44,11 +44,9 @@ component Button {
         }
 
         <ButtonStyle wide={{$.wide}} orange={{$.orange}}>
-            <div>
-                <button onClick={{&handle-click}}>
-                    {{$.name}}
-                </button>
-            </div>
+            <button onClick={{&handle-click}}>
+                {{$.name}}
+            </button>
         </ButtonStyle>
     }
 }
