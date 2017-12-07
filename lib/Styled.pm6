@@ -2,6 +2,7 @@ use Component;
 use Element;
 
 unit role Styled;
+
 my role Style {has $.style is rw}
 multi trait_mod:<is>(Method $m, :$style!) is export {
     $m does Style;
@@ -26,7 +27,7 @@ method render {
                     do for self.^methods.grep: Style -> $m {
                         my $tag = $m.style;
                         qq:to/END/
-                        .$!className $tag \{
+                        .{$!className}{$tag.starts-with("main") ?? $tag.substr(4) !! " $tag"} \{
                         {$m(self).indent: 5}
                         \}
                         END

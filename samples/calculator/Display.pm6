@@ -3,7 +3,7 @@ use Styled;
 use Slang;
 
 component DisplayStyle does Styled {
-    method div is style {
+    method main is style {
         qq:to/END/;
         background-color: #858694;
         color: white;
@@ -15,8 +15,8 @@ component DisplayStyle does Styled {
     }
     method child-div is style("> div") {
         qq:to/END/;
-        font-size: 100px;
-        padding: 20px 40px 0 20px;
+        font-size: 20px;
+        padding: 8px 4px 0 4px;
         END
     }
 }
@@ -26,9 +26,7 @@ component Display {
     method render {
 
         <DisplayStyle>
-            <div>
-                {{$.value}}
-            </div>
+            {{$.value}}
         </DisplayStyle>
     }
 }

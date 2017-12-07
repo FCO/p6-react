@@ -3,7 +3,7 @@ use Styled;
 use Slang;
 
 component ButtonPanelStyle does Styled {
-    method div is style("") {
+    method main is style {
         qq:to/END/;
         background-color: #858694;
         display: flex;

@@ -6,7 +6,7 @@ use Button;
 use Styled;
 
 component AppStyle does Styled {
-    method div is style {
+    method main is style {
         qq:to/END/;
         display: flex;
         flex-direction: column;
@@ -31,14 +31,12 @@ component App {
         }
 
         <AppStyle>
-            <div className="component-app">
-                <Display
-                    value={{$.state<next> or $.state<total> or '0'}}
-                />
-                <ButtonPanel
-                    clickHandler={{&handle-click}}
-                />
-            </div>
+            <Display
+                value={{$.state<next> or $.state<total> or '0'}}
+            />
+            <ButtonPanel
+                clickHandler={{&handle-click}}
+            />
         </AppStyle>
     }
 }
