@@ -28,5 +28,3 @@ component App {
         </div>
     }
 }
-
-say App.new.render.render
