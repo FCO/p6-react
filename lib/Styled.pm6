@@ -5,7 +5,7 @@ unit role Styled[Str $tag!];
 
 has Str $!className = "styled-{$*PID.fmt: "%x"}-{now.fmt: "%x"}-{(++$).fmt: "%x"}";
 
-method code {...}
+method style {...}
 
 method render {
     Element.new:
@@ -19,7 +19,7 @@ method render {
                 :children[
                     qq:to/END/
                     #$!className $tag \{
-                    {self.code.indent: 5}
+                    {self.style.indent: 5}
                     \}
                     END
                 ],
