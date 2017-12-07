@@ -37,7 +37,7 @@ class Element {
         qq:to/END/;
         <{$!type}{(" " if %!pars > 0) ~ self!attrs}>
         {
-            @!children.map({self!value($_)}).join("\n").indent: 5
+            @!children.grep(*.defined).map({self!value($_)}).join("\n").indent: 5
         }
         </$!type>
         END

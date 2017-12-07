@@ -1,6 +1,7 @@
 no precompilation;
 role Component {
     has %.state;
+    has @.children;
     method render() {...}
     method setState(%!state) {say "rerender"}
 }
