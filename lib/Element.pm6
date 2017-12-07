@@ -15,12 +15,12 @@ class Element {
 
     method !translate-key($_) is hidden-from-backtrace {
         when "className"    { "class"   }
-        default             { $_ }
+        default             { $_        }
     }
 
     method !attrs is hidden-from-backtrace {
         %!pars.kv.map(-> $name, $value {
-            "$name='{self!value($value)}'"
+            "{self!translate-key($name)}='{self!value($value)}'"
         })
         .join: " "
     }

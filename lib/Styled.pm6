@@ -16,9 +16,10 @@ method render {
         :children[
             Element.new(
                 :type("style"),
+                :pars{:type<text/css>},
                 :children[
                     qq:to/END/
-                    #$!className $tag \{
+                    .$!className $tag \{
                     {self.style.indent: 5}
                     \}
                     END

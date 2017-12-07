@@ -13,7 +13,6 @@ method add-route($path, Element $elem) {
 method start(:$host = "localhost", :$port = 3000) {
 	my $app = sub (%env) {
 		return do with %!end-points{%env<PATH_INFO>} {
-			.note;
 			[ 200, [ 'Content-Type' => 'text/html'  ], [ .render ] ];
 		} else {
 			[ 404, [ 'Content-Type' => 'text/plain' ], [ "not found" ]]
