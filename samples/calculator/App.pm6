@@ -3,6 +3,18 @@ use Slang;
 use Display;
 use ButtonPanel;
 use Button;
+use Styled;
+
+component AppStyle does Styled {
+    method div is style {
+        qq:to/END/;
+        display: flex;
+        flex-direction: column;;
+        flex-wrap: wrap;
+        height: 100%;
+        END
+    }
+}
 
 component App {
     method TWEAK(|) {

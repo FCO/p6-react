@@ -1,15 +1,36 @@
 use Component;
+use Styled;
 use Slang;
+
+component ButtonPanelStyle does Styled {
+    method div is style("") {
+        qq:to/END/;
+        background-color: #858694;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        flex: 1 0 auto;
+        END
+    }
+    method child-div is style("> div") {
+        qq:to/END/;
+        width: 100%;
+        margin-bottom: 1px;
+        flex: 1 0 auto;
+        display: flex;
+        END
+    }
+}
 
 component ButtonPanel {
     has &.handle-click;
     method render {
-        <div className="component-button-panel">
+        <ButtonPanelStyle>
             <div>
               <Button name="AC"  clickHandler={{&.handle-click}} />
               <Button name="+/-" clickHandler={{&.handle-click}} />
               <Button name="%"   clickHandler={{&.handle-click}} />
-              <Button name="÷"   clickHandler={{&.handle-click}} orange />
+              <Button name="/"   clickHandler={{&.handle-click}} orange />
             </div>
             <div>
               <Button name="7" clickHandler={{&.handle-click}} />
@@ -34,7 +55,7 @@ component ButtonPanel {
               <Button name="." clickHandler={{&.handle-click}} />
               <Button name="=" clickHandler={{&.handle-click}} orange />
             </div>
-        </div>
+        </ButtonPanelStyle>
     }
 }
 

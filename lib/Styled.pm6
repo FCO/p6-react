@@ -1,11 +1,16 @@
 use Component;
 use Element;
 
-unit role Styled[Str $tag!];
+unit role Styled;
+my role Style {has $.style is rw}
+multi trait_mod:<is>(Method $m, :$style!) is export {
+    $m does Style;
+    $m.style = $style === True ?? $m.name !! $style;
+}
 
-has Str $!className = "styled-{$*PID.fmt: "%x"}-{now.fmt: "%x"}-{(++$).fmt: "%x"}";
+my UInt $id = 1;
 
-method style {...}
+has Str $!className = "styled-{$*PID.fmt: "%x"}-{now.fmt: "%x"}-{($id++).fmt: "%x"}";
 
 method render {
     Element.new:
@@ -18,11 +23,14 @@ method render {
                 :type("style"),
                 :pars{:type<text/css>},
                 :children[
-                    qq:to/END/
-                    .$!className $tag \{
-                    {self.style.indent: 5}
-                    \}
-                    END
+                    do for self.^methods.grep: Style -> $m {
+                        my $tag = $m.style;
+                        qq:to/END/
+                        .$!className $tag \{
+                        {$m(self).indent: 5}
+                        \}
+                        END
+                    }
                 ],
             ),
             |self.children
