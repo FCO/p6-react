@@ -9,7 +9,7 @@ component AppStyle does Styled {
     method div is style {
         qq:to/END/;
         display: flex;
-        flex-direction: column;;
+        flex-direction: column;
         flex-wrap: wrap;
         height: 100%;
         END
@@ -30,13 +30,15 @@ component App {
             self.setState: self.state;
         }
 
-        <div className="component-app">
-            <Display
-                value={{$.state<next> or $.state<total> or '0'}}
-            />
-            <ButtonPanel
-                clickHandler={{&handle-click}}
-            />
-        </div>
+        <AppStyle>
+            <div className="component-app">
+                <Display
+                    value={{$.state<next> or $.state<total> or '0'}}
+                />
+                <ButtonPanel
+                    clickHandler={{&handle-click}}
+                />
+            </div>
+        </AppStyle>
     }
 }
