@@ -23,6 +23,7 @@ component Test {
     has Str $.name is required;
     has Str @.list;
     method render {
+        my $counter = 0;
         <div>
             <h1>
                 Shopping List for {{$.name}}
@@ -30,7 +31,7 @@ component Test {
             <ul>
                 {{
                     do for @.list -> $item {
-                        <ThemeProvider theme={{@themes[$++ % 2]}}>
+                        <ThemeProvider theme={{@themes[$counter++ % 2]}}>
                             <ItemTheme>
                                 <Item name={{$item}} />
                             </ItemTheme>
@@ -46,9 +47,4 @@ component Parent {
     method render {
         <Test name="bla" list={{"Instagram", "WhatsApp", "Oculus", "FaceBook", "Google+"}} />
     }
-}
-
-given Server.new {
-   .add-route: "/test", <Parent />;
-   .start
 }

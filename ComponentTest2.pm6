@@ -1,7 +1,7 @@
 use Component;
 use Slang;
 
-component Item {
+component LiItem {
     has Str $.data;
     method render {
         <li>
@@ -16,11 +16,10 @@ component UlList {
         <ul>
             {{
                 do for @.items -> $item {
-                    <Item data={{$item}} />
+                    <LiItem data={{$item}} />
                 }
             }}
         </ul>
     }
 }
 
-say UlList.new(:items<bla ble bli>).render-component.render

@@ -19,6 +19,10 @@ method start(:$host = "localhost", :$port = 3000) {
         }
     }
 
+    say "Endpoints:";
+    .indent(5).say for %!end-points.keys.sort;
+    say "";
+
     my $http = HTTP::Easy::PSGI.new(:$port);
     $http.handle($app);
 }
