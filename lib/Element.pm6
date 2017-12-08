@@ -1,4 +1,5 @@
 use Component;
+use ComponentStore;
 class Element {
     has $.type      is required;
     has @.children;
@@ -33,7 +34,7 @@ class Element {
 
     method render is hidden-from-backtrace {
         @!children.grep(*.defined).map: -> $item {$item.theme = |$item.theme, |%!theme if $item.^can("theme")}
-        my $comp =  MetamodelX::ComponentHOW.components{$!type};
+        my $comp =  ComponentStore.components{$!type};
         if $comp ~~ Component {
             my %pars;
             for %!pars.kv -> \k, \v {

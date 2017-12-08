@@ -1,4 +1,4 @@
-no precompilation;
+use ComponentStore;
 role Component {
     has %.state;
     has @.children;
@@ -13,16 +13,12 @@ role Component {
 }
 
 class MetamodelX::ComponentHOW is Metamodel::ClassHOW {
-    my %components;
-
     method new_type(|) {
         my \type = callsame;
         type.^add_role: Component;
-        %components{type.^name} = type;
+        ComponentStore.components{type.^name} = type;
         type
     }
-
-    method components { %components }
 }
 
 my package EXPORTHOW {
