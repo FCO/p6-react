@@ -3,8 +3,11 @@ use Styled;
 use Slang;
 
 component ItemStyle does Styled {
-    method li is style is media("(min-width: 700px)") {
-        "background-color: blue;"
+    method li is style is media("print") {
+        qq:to/END/;
+        background-color: blue;
+        text-decoration: underline;
+        END
     }
 }
 
