@@ -2,8 +2,14 @@ no precompilation;
 role Component {
     has %.state;
     has @.children;
+    has %.theme;
     method render() {...}
     method setState(%!state) {say "rerender"}
+    method render-component {
+        my \elem = self.render;
+        elem.theme = %!theme;
+        elem
+    }
 }
 
 class MetamodelX::ComponentHOW is Metamodel::ClassHOW {

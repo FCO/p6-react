@@ -23,4 +23,4 @@ component UlList {
     }
 }
 
-say UlList.new(:items<bla ble bli>).render.render
+say UlList.new(:items<bla ble bli>).render-component.render

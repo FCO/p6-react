@@ -1,4 +1,7 @@
+use ThemeProvider;
 use Component;
+use Server;
+use Styled;
 use Slang;
 
 component Item {
@@ -8,18 +11,30 @@ component Item {
     }
 }
 
+my @themes = {:color<black>}, {:color<red>};
+
+component ItemTheme does Styled {
+    method li is style {
+        "color: {%.theme<color>};"
+    }
+}
+
 component Test {
     has Str $.name is required;
     has Str @.list;
     method render {
-        <div className="shopping-list">
+        <div>
             <h1>
                 Shopping List for {{$.name}}
             </h1>
             <ul>
                 {{
                     do for @.list -> $item {
-                        <Item name={{$item}} />
+                        <ThemeProvider theme={{@themes[$++ % 2]}}>
+                            <ItemTheme>
+                                <Item name={{$item}} />
+                            </ItemTheme>
+                        </ThemeProvider>
                     }
                 }}
             </ul>
@@ -29,8 +44,11 @@ component Test {
 
 component Parent {
     method render {
-        <Test name="bla" list={{"Instagram", "WhatsApp", "Oculus"}} />
+        <Test name="bla" list={{"Instagram", "WhatsApp", "Oculus", "FaceBook", "Google+"}} />
     }
 }
 
-say Parent.new.render.render;
+given Server.new {
+   .add-route: "/test", <Parent />;
+   .start
+}
