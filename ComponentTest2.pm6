@@ -1,12 +1,21 @@
 use Component;
+use Styled;
 use Slang;
+
+component ItemStyle does Styled {
+    method li is style is media("(min-width: 700px)") {
+        "background-color: blue;"
+    }
+}
 
 component LiItem {
     has Str $.data;
     method render {
-        <li>
-            {{$.data}}
-        </li>
+        <ItemStyle>
+            <li>
+                {{$.data}}
+            </li>
+        </ItemStyle>
     }
 }
 
