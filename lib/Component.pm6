@@ -3,8 +3,17 @@ role Component {
     has %.state;
     has @.children;
     has %.theme;
+    method apply-plugins(@plugins) {
+        self does $_ for @plugins;
+        self
+    }
     method render() {...}
-    method setState(%!state) {say "rerender"}
+    method set-state(%!state) {
+        self.after-set-state(self.render-component)
+    }
+    #method after-set-state($elem) {
+    #    note "after-set-state: {$elem.perl}"
+    #}
     method render-component {
         my \elem = self.render;
         elem.theme = %!theme;
