@@ -25,6 +25,10 @@ method serve($elem) {
     use Cro::HTTP::Router;
     use Cro::HTTP::Router::WebSocket;
 
+    my $root = $elem.clone;
+    $root.apply-plugins: WSPluginElement;
+    $root.add-component-plugin(WSPluginComponent);
+
     $elem.apply-plugins: WSPluginElement;
     my $application = route {
         get -> {
@@ -34,18 +38,13 @@ method serve($elem) {
                         <JavaScript file="./ws.js" />
                     </head>
                     <body>
-                        {{$elem}}
+                        {{$root}}
                     </body>
                 </html>
                 .render
             ;
         }
         get -> "ws" {
-            my $root = $elem.clone;
-            $root.apply-plugins: WSPluginElement;
-            $root.add-component-plugin(WSPluginComponent);
-            $root.render;
-
             web-socket -> $incomming {
                 supply {
                     whenever $incomming -> $msg {

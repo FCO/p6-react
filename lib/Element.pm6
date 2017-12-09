@@ -5,7 +5,7 @@ class Element {
     has @.children;
     has %.pars;
     has %.theme;
-	has @.plugin;
+	has @.plugins;
 	has @!component-plugins handles add-component-plugin => "push";
 
     method TWEAK(|) {
@@ -34,7 +34,7 @@ class Element {
 
 	method apply-plugins(+@plugins) {
 		for @plugins {
-			@!plugin.push: $_;
+			@!plugins.push: $_;
 			@!children.grep(*.defined).map(*.?apply-plugins($_));
 			self does $_
 		}
@@ -51,7 +51,8 @@ class Element {
             }
             given $comp.new(|%pars, :%!theme, :@!children) {
 				.apply-plugins(@!component-plugins);
-				return .render-component.apply-plugins(@!plugin).render
+				.add-element-plugin: |@!plugins;
+				return .render-component.apply-plugins(@!plugins).render
 			}
         }
         qq:to/END/;

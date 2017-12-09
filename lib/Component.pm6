@@ -3,6 +3,7 @@ role Component {
     has %.state;
     has @.children;
     has %.theme;
+    has @.element-plugis handles add-element-plugin => "push";
     method apply-plugins(@plugins) {
         self does $_ for @plugins;
         self
@@ -15,9 +16,11 @@ role Component {
     #    note "after-set-state: {$elem.perl}"
     #}
     method render-component {
-        my \elem = self.render;
-        elem.theme = %!theme;
-        elem
+        do given self.render {
+            .theme = %!theme;
+            .apply-plugins(@!element-plugis);
+            $_
+        }
     }
 }
 
