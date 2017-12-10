@@ -1,11 +1,13 @@
 use Element;
 use JSON::Fast;
 use Slang;
+use JavaScript;
+use Component;
 unit class WSPlugin;
 
 my Sub %subs;
 
-my role WSPluginElement {
+my role WSPluginElement does Element::Plugin {
     multi method value(Sub $_) {
         my $name = "{.name}-{$*PID.fmt: "%x"}-{now.fmt: "%x"}-{(++$).fmt: "%x"}";
         %subs{$name} = $_;
@@ -13,9 +15,9 @@ my role WSPluginElement {
     }
 }
 
-my role WSPluginComponent {
+my role WSPluginComponent does Component::Plugin {
     method after-set-state(Element $ele) {
-        say "role: ", $ele;
+        say "WSPluginComponent::after-set-state: $ele";
         emit $ele.render
     }
 }
@@ -25,13 +27,12 @@ method serve($elem) {
     use Cro::HTTP::Router;
     use Cro::HTTP::Router::WebSocket;
 
-    my $root = $elem.clone;
-    $root.apply-plugins: WSPluginElement;
-    $root.add-component-plugin(WSPluginComponent);
-
-    $elem.apply-plugins: WSPluginElement;
     my $application = route {
         get -> {
+            my $root = $elem.clone;
+            $root.add-component-plugin(WSPluginComponent);
+            $root.apply-plugins: WSPluginElement;
+
             content 'text/html',
                 <html>
                     <head>
@@ -49,6 +50,7 @@ method serve($elem) {
                 supply {
                     whenever $incomming -> $msg {
                         my $msg-text = await $msg.body-text;
+                        say $msg-text;
                         my %data = from-json $msg-text;
                         %subs{%data<func>}.(%data<event>)
                     }

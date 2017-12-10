@@ -16,5 +16,7 @@ window.ws.onmessage = function (msg) {
 }
 
 function sendToProact(name, event) {
+    event.preventDefault();
+    console.log(`sending: ${name}, ${event}`);
     window.ws.send(JSON.stringify({func: name, event: event}))
 }
