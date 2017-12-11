@@ -33,21 +33,6 @@ class Element {
         .join: " "
     }
 
-    method apply-plugins(+@plugins) {
-        for @plugins.grep: Element::Plugin -> \plugin{
-            unless self ~~ plugin {
-                @!plugins.push: plugin;
-                @!children
-                    .grep(*.defined)
-                    .map(
-                        *.?apply-plugins(plugin)
-                    );
-                self does plugin
-            }
-        }
-        self
-    }
-
     method render {
         @!children.grep(*.defined).map: -> $item {$item.theme = |$item.theme, |%!theme if $item.^can("theme")}
         my $comp =  ComponentStore.components{$!type};
@@ -56,18 +41,21 @@ class Element {
             for %!pars.kv -> \k, \v {
                 %pars{k} := v<>
             }
-            given $comp.new(|%pars, :%!theme, :@!children) {
-                .apply-plugins(@!component-plugins);
-                .add-element-plugin: |@!plugins;
-                return .render-component.apply-plugins(@!plugins).render
-            }
+            my $obj = $comp.new(|%pars, :%!theme, :@!children);
+            $obj = self.?apply-component-plugin($obj) // $obj;
+            $obj .= render-component;
+            $obj = self.?apply-element-plugin($obj) // $obj;
+            return $obj.render
         }
         qq:to/END/;
         <{$!type}{(" " if %!pars > 0) ~ self!attrs}>
         {
             @!children
                 .grep(*.defined)
-                .map({self.value($_)})
+                .map({
+                    my $obj = self.?apply-element-plugin($_) // $_;
+                    self.value($obj)
+                })
                 .join("\n")
                 .indent: 5
         }

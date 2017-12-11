@@ -13,7 +13,7 @@ component Number {
 component Counter {
     method render {
         my sub on-click(|) {
-            say "func";
+            say self;
             self.set-state: {num => ($.state<num> // 0) + 1}
         }
         <div>

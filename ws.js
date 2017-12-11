@@ -15,8 +15,27 @@ window.ws.onmessage = function (msg) {
     document.body.innerHTML = msg.data;
 }
 
+const formToJSON = elements => [].reduce.call(elements, (data, element) => {
+
+  data[element.name] = element.value;
+  return data;
+
+}, {});
+
 function sendToProact(name, event) {
     event.preventDefault();
-    console.log(`sending: ${name}, ${event}`);
-    window.ws.send(JSON.stringify({func: name, event: event}))
+
+    let data = {
+        func: name,
+        event
+    };
+
+    switch(event.target.tagName) {
+        case "FORM":
+            data.fields = formToJSON(event.target.elements);
+        break;
+    }
+
+    console.log("sending: ", data);
+    window.ws.send(JSON.stringify(data))
 }

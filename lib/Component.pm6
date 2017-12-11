@@ -6,33 +6,27 @@ role Component {
     has %.state;
     has @.children;
     has %.theme;
-    has @.element-plugis handles add-element-plugin => "push";
-    method apply-plugins(@plugins) {
-        for @plugins.grep: Component::Plugin -> \plugin {
-            unless self ~~ plugin {
-                say "Adding plugins: {plugin.^name}";
-                say "Is it Method? {plugin ~~ Method ?? "Yes" !! "No"}";
-                say "self: {self.^name}";
-                self does plugin;
-            }
-        }
-        self
-    }
     method render() {...}
     method set-state(%!state) {
-        say "set-state: {%!state}";
-        say self.^name;
-        self.?after-set-state(self.render-component)
+        my $element = self.render-component;
+        dd self;
+        self.?after-set-state($element)
     }
-    #method after-set-state($elem) {
-    #    note "after-set-state: {$elem.perl}"
-    #}
-    method render-component {
-        do given self.render {
-            .theme = %!theme;
-            .apply-plugins(@!element-plugis) if @!element-plugis;
-            $_
+    method recursively-apply-plugins-to-element($element) {
+        for |$element.?children.grep: *.defined -> \child {
+            self.recursively-apply-plugins-to-element(child);
         }
+        do if $element.defined {
+            self.?apply-element-plugin($element) // $element
+        } else {
+            $element
+        }
+    }
+    method render-component {
+        my $obj = self.render;
+        $obj = self.recursively-apply-plugins-to-element: $obj;
+        $obj.theme = %!theme;
+        $obj
     }
 }
 

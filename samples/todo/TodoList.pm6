@@ -8,7 +8,7 @@ component TodoList {
     method render {
         <table>
             {{
-                do for @!todos -> % (Bool :$done, Str :$todo) {
+                do for @!todos.grep: *.defined -> % (Bool :$done, Str :$todo) {
                     <Todo done={{$done}} todo={{$todo}} />
                 }
             }}

@@ -4,19 +4,23 @@ use Entry;
 use Slang;
 
 component Display {
-    method TWEAK() {
-        %!state = :todo[${:!done, :todo<Test>}], :entry(""), |%!state
-    }
     method render {
-        sub add-todo(|c) {
-            say "==> {c}";
-            my $todo = %!state<entry>;
-            %!state<entry> = "";
-            %!state<todo>.push: {:!done, :$todo}
+        my sub add-todo(%data) {
+            CATCH {
+                default {
+                    .say;
+                }
+            }
+            my $todo = %data<fields><new-todo>;
+            say "adding: $todo";
+            my @todo = |%!state<todo>;
+            @todo.push: {:done(False), :$todo};
+            self.set-state: (|%!state, :@todo).Hash;
+            say "did set-state: ", %!state;
         }
         <form onSubmit={{&add-todo}}>
             <TodoList todos={{ %!state<todo> }} /> <br />
-            <Entry data={{%!state<entry>}} />
+            <Entry />
         </form>
     }
 }
