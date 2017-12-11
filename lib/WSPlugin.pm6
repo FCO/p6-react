@@ -16,7 +16,7 @@ role WSPluginElement {
         element but WSPluginElement
     }
     multi method value(Block $_) {
-        my $name = "{.name}-{$*PID.fmt: "%x"}-{now.fmt: "%x"}-{(++$).fmt: "%x"}";
+        my $name = "{.name}-{.WHERE.fmt: "%x"}-{$*PID.fmt: "%x"}-{now.fmt: "%x"}-{(++$).fmt: "%x"}";
         %subs{$name} = $_;
         qq|sendToProact("$name", event)|
     }

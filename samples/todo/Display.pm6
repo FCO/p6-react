@@ -15,8 +15,15 @@ component Display {
             my %new-state = |%.state, :@todo;
             self.set-state: %new-state;
         }
+        my sub toggle-todo(UInt $index, |) {
+            say "===> $index";
+            my @todo = |%.state<todo>.grep: *.defined;
+            @todo[$index]<done> = not @todo[$index]<done>;
+            my %new-state = |%.state, :@todo;
+            self.set-state: %new-state;
+        }
         <form onSubmit={{&add-todo}}>
-            <TodoList todos={{ %.state<todo> }} /> <br />
+            <TodoList todos={{ %.state<todo> }} toggle={{ &toggle-todo }} /> <br />
             <Entry />
         </form>
     }
