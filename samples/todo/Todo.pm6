@@ -8,7 +8,7 @@ component Todo {
     method render {
         <tr>
             <td>
-                <input type=checkbox checked={{$!done ?? "checked" !! "no"}}>
+                <input type=checkbox checked={{$!done}}>
                 </input>
             </td>
             <td>

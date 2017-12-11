@@ -14,13 +14,15 @@ class Element {
         %!pars<theme>:delete;
     }
 
-    proto method value(           $ ) { *                         }
-    multi method value(Component  $_) { self.value(.render, $_)   }
-    multi method value(Element    $_) { .render                   }
-    multi method value(Positional $_) { |.map: {self.value($_)}   }
-    multi method value(Any:U      $_) { Empty                     }
-    multi method value(Block      $_) { .name                     }
-    multi method value(Any        $_) { .Str                      }
+    proto method value(                 $ ) { *                         }
+    multi method value(Component        $_) { self.value(.render, $_)   }
+    multi method value(Element          $_) { .render                   }
+    multi method value(Positional       $_) { |.map: {self.value($_)}   }
+    multi method value(Any:U            $_) { Empty                     }
+    multi method value(Block            $_) { .name                     }
+    multi method value($ where * === False) { False                     }
+    multi method value($ where * === True ) { True                      }
+    multi method value(Any              $_) { .Str                      }
 
     proto method translate-key(         $ )    { *         }
     multi method translate-key("className")    { "class"   }
@@ -28,7 +30,17 @@ class Element {
 
     method !attrs is hidden-from-backtrace {
         %!pars.kv.map(-> $name, $value {
-            "{self.translate-key($name)}='{self.value($value)}'"
+            do given self.value($value) {
+                when $_ === False {
+                    ""
+                }
+                when $_ === True {
+                    "{self.translate-key($name)}"
+                }
+                default {
+                    "{self.translate-key($name)}='{$_}'"
+                }
+            }
         })
         .join: " "
     }

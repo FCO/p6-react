@@ -7,7 +7,9 @@ role Component {
     has @.children;
     has %.theme;
     method render() {...}
-    method set-state(%!state) {
+    method set-state(%state) {
+        %!state = %state;
+        say %!state;
         my $element = self.render-component;
         dd self;
         self.?after-set-state($element)
