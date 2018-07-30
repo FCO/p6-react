@@ -1,6 +1,6 @@
 # p6-react
 
-```
+```perl6
 use Component;
 use Slang;
 
