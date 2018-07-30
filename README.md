@@ -1,6 +1,6 @@
 # p6-react
 
-```
+```perl6
 use Component;
 use Slang;
 
@@ -31,7 +31,7 @@ say UlList.new(:items<bla ble bli>).render.render
 
 ## running:
 
-```
+```html
 <ul>
      <li>
           bla
