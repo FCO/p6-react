@@ -1,7 +1,7 @@
-use Component;
-use ComponentStore;
-role Element::Plugin {}
-class Element {
+use React::Component;
+use React::ComponentStore;
+role React::Element::Plugin {}
+class React::Element {
     has $.type      is required;
     has @.children;
     has %.pars;
@@ -15,8 +15,8 @@ class Element {
     }
 
     proto method value(                 $ ) { *                         }
-    multi method value(Component        $_) { self.value(.render, $_)   }
-    multi method value(Element          $_) { .render                   }
+    multi method value(React::Component $_) { self.value(.render, $_)   }
+    multi method value(React::Element   $_) { .render                   }
     multi method value(Positional       $_) { |.map: {self.value($_)}   }
     multi method value(Any:U            $_) { Empty                     }
     multi method value(Block            $_) { .name                     }
@@ -47,8 +47,8 @@ class Element {
 
     method render {
         @!children.grep(*.defined).map: -> $item {$item.theme = |$item.theme, |%!theme if $item.^can("theme")}
-        my $comp =  ComponentStore.components{$!type};
-        if $comp ~~ Component {
+        my $comp =  React::ComponentStore.components{$!type};
+        if $comp ~~ React::Component {
             my %pars;
             for %!pars.kv -> \k, \v {
                 %pars{k} := v<>

@@ -1,8 +1,8 @@
-use ComponentStore;
-role Component::Plugin {
+use React::ComponentStore;
+role React::Component::Plugin {
     method after-set-state($) {...}
 }
-role Component {
+role React::Component {
     has %.state;
     has @.children;
     has %.theme;
@@ -35,8 +35,8 @@ role Component {
 class MetamodelX::ComponentHOW is Metamodel::ClassHOW {
     method new_type(|) {
         my \type = callsame;
-        type.^add_role: Component;
-        ComponentStore.components{type.^name} = type;
+        type.^add_role: React::Component;
+        React::ComponentStore.components{type.^name} = type;
         type
     }
 }

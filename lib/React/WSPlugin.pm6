@@ -1,15 +1,15 @@
-use Element;
+use React::Element;
 use JSON::Fast;
-use Slang;
+use React::Slang;
 use JavaScript;
-use Component;
-unit class WSPlugin;
+use React::Component;
+unit class React::WSPlugin;
 
 my Sub %subs;
 
 role WSPluginComponent {...}
 role WSPluginElement {
-    method apply-component-plugin(Component $comp) {
+    method apply-component-plugin(React::Component $comp) {
         $comp but WSPluginComponent
     }
     method apply-element-plugin(\element) {
@@ -17,6 +17,7 @@ role WSPluginElement {
     }
     multi method value(Block $_) {
         my $name = "{.name}-{.WHERE.fmt: "%x"}-{$*PID.fmt: "%x"}-{now.fmt: "%x"}-{(++$).fmt: "%x"}";
+        say $name;
         %subs{$name} = $_;
         qq|sendToProact("$name", event)|
     }
@@ -26,7 +27,7 @@ role WSPluginComponent {
     method apply-element-plugin(\element) {
         element but WSPluginElement
     }
-    method after-set-state(Element $ele) {
+    method after-set-state(React::Element $ele) {
         say "WSPluginComponent::after-set-state: {$ele}";
         my $html = $ele.render;
         say $html;
@@ -69,7 +70,7 @@ method serve($elem) {
 
     # Create the HTTP service object
     my Cro::Service $service = Cro::HTTP::Server.new(
-        :host('localhost'), :port(2314), :$application
+        :host('localhost'), :port(3000), :$application
     );
 
     # Run it

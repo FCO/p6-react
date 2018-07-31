@@ -1,5 +1,5 @@
-use Component;
-use Slang;
+use React::Component;
+use React::Slang;
 
 component JavaScript {
     has $.file;

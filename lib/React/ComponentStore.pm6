@@ -1,5 +1,5 @@
 no precompilation;
-class ComponentStore {
+class React::ComponentStore {
     my %components;
     method components { %components }
 }

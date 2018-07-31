@@ -1,5 +1,5 @@
 use Element;
-grammar P6X {
+grammar React::P6X {
     token word {
         \w+
     }

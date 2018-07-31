@@ -1,7 +1,7 @@
 use lib "lib";
-use Component;
-use Slang;
-use WSPlugin;
+use React::Component;
+use React::Slang;
+use React::WSPlugin;
 
 component Number {
     has $.num;
@@ -23,4 +23,4 @@ component Counter {
     }
 }
 
-WSPlugin.serve: <Counter />
+React::WSPlugin.serve: <Counter />
