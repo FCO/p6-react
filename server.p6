@@ -1,22 +1,16 @@
 use lib ".";
 use lib "lib";
 use lib "samples/calculator";
-use Server;
-use Slang;
+use React::Server;
+use React::Slang;
+use ComponentTest;
+use ComponentTest2;
+use App;
 
-given Server.new {
-    {
-        use ComponentTest;
-        .add-route: "/test",  <Parent />;
-    }
-    {
-        use ComponentTest2;
-        .add-route: "/test2", <UlList items={{["bla", "ble", "bli"]}} />;
-    }
-    {
-        use App;
-        .add-route: "/calculator", <App />;
-    }
+given React::Server.new {
+    .add-route: "/test",        <Parent />;
+    .add-route: "/test2",       <UlList items={{["bla", "ble", "bli"]}} />;
+    .add-route: "/calculator",  <App />;
     .start
 }
 

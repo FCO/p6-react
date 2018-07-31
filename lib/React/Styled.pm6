@@ -1,16 +1,16 @@
-use Component;
-use Element;
+use React::Component;
+use React::Element;
 
-unit role Styled;
+unit role React::Styled;
 
-my role Style[$tag] {has $.style is rw = $tag}
+my role React::Style[$tag] {has $.style is rw = $tag}
 multi trait_mod:<is>(Method $m, :$style!) is export {
-    $m does Style[$style === True ?? $m.name !! $style];
+    $m does React::Style[$style === True ?? $m.name !! $style];
 }
 
-my role WrappedBy[$wrap] {has $.wrapped-by is rw = $wrap}
+my role React::WrappedBy[$wrap] {has $.wrapped-by is rw = $wrap}
 multi trait_mod:<is>(Method $m, :$wrapped-by!) is export {
-    $m does WrappedBy[$wrapped-by === True ?? $m.name !! $wrapped-by];
+    $m does React::WrappedBy[$wrapped-by === True ?? $m.name !! $wrapped-by];
 }
 
 multi trait_mod:<is>(Method $m, :$media!) is export {
@@ -23,13 +23,13 @@ has Str $!className = "{self.^name}-styled-{$*PID.fmt: "%x"}-{now.fmt: "%x"}-{($
 
 method render {
     my %wrap = self.^methods.grep(Style).classify: {.?wrapped-by // ""}
-    Element.new:
+    React::Element.new:
         :type<div>,
         :pars{
             :$!className
         },
         :children[
-            Element.new(
+            React::Element.new(
                 :type("style"),
                 :pars{:type<text/css>},
                 :children[

@@ -1,9 +1,9 @@
 use HTTP::Easy::PSGI;
-use Element;
+use React::Element;
 
-unit class Server;
+unit class React::Server;
 
-has Element %!end-points;
+has React::Element %!end-points;
 
 
 method add-route($path, Element $elem) {

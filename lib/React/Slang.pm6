@@ -1,10 +1,10 @@
 use QAST:from<NQP>;
-use Element;
+use React::Element;
 use nqp;
 
 sub create-element($type, *@data) is export {
     my %data = @data.classify: {$_ ~~ Pair ?? "pars" !! "children"};
-    Element.new:
+    React::Element.new:
         :$type,
         :pars(
             %data<pars>
@@ -15,7 +15,7 @@ sub create-element($type, *@data) is export {
                 })
                 // {}
         ),
-        :children(|%data<children> // [])
+        :children(|%data<children>.grep(*.defined) // [])
 }
 
 proto create-pair($, |) is export {
@@ -39,8 +39,8 @@ sub EXPORT {
             <p6x-attr-name=.p6x-word> [ '=' <p6x-value> ]?
         }
         proto token p6x-value    {*                             }
-        token p6x-value:sym<dbl> { '"' ~ '"' $<p6x-value>=<-[">]>*    }
-        token p6x-value:sym<sim> { "'" ~ "'" $<p6x-value>=<-['>]>*    }
+        token p6x-value:sym<dbl> { \" ~ \" $<p6x-value>=<-[">]>*    }
+        token p6x-value:sym<sim> { \' ~ \' $<p6x-value>=<-['>]>*    }
         token p6x-value:sym<wrd> { <p6x-value=.p6x-word>              }
         token p6x-value:sym<blk> { '{' ~ '}'<p6x-value=.pblock>       }
 
@@ -61,13 +61,6 @@ sub EXPORT {
         rule p6x-children:sym<blk> { '{' ~ '}' <pblock>}
 
         proto rule p6x-tag {*}
-        rule p6x-tag:sym<unique> {
-            '<' ~ '/>' [
-                <!after '/'>
-                <tag-name=.p6x-word>
-                <p6x-inner-tag>
-            ]
-        }
         rule p6x-tag:sym<open-close> {
             [
                 '<' ~ '>' [
@@ -77,6 +70,13 @@ sub EXPORT {
                     <!before '/'>
                 ]
             ] ~ ["</" ~ ">" $<tag-name>] <p6x-children>*
+        }
+        rule p6x-tag:sym<unique> {
+            '<' ~ '/>' [
+                <!after '/'>
+                <tag-name=.p6x-word>
+                <p6x-inner-tag>
+            ]
         }
         rule term:sym<p6x> {
             <p6x-tag>
