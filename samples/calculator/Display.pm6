@@ -1,8 +1,8 @@
-use Component;
-use Styled;
-use Slang;
+use React::Component;
+use React::Styled;
+use React::Slang;
 
-component DisplayStyle does Styled {
+component DisplayStyle does React::Styled {
     method main is style {
         qq:to/END/;
         background-color: #858694;
@@ -24,7 +24,7 @@ component DisplayStyle does Styled {
 component Display {
     has Str $.value;
     method render {
-
+say "aqui2";
         <DisplayStyle>
             {{$.value}}
         </DisplayStyle>

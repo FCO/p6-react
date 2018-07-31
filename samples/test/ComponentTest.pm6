@@ -1,8 +1,8 @@
-use ThemeProvider;
-use Component;
-use Server;
-use Styled;
-use Slang;
+use React::ThemeProvider;
+use React::Component;
+use React::Server;
+use React::Styled;
+use React::Slang;
 
 component Item {
     has Str $.name;
@@ -13,7 +13,7 @@ component Item {
 
 my @themes = {:color<black>}, {:color<red>};
 
-component ItemTheme does Styled {
+component ItemTheme does React::Styled {
     method li is style {
         "color: {%.theme<color>};"
     }

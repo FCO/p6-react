@@ -1,11 +1,11 @@
-use Component;
-use Slang;
+use React::Component;
+use React::Slang;
+use React::Styled;
 use Display;
 use ButtonPanel;
 use Button;
-use Styled;
 
-component AppStyle does Styled {
+component AppStyle does React::Styled {
     method main is style {
         qq:to/END/;
         display: flex;
@@ -21,6 +21,7 @@ component App {
         sub handle-click(Str $button-name) {
             self.setState: self.state;
         }
+        say "aqui";
 
         <AppStyle>
             <Display

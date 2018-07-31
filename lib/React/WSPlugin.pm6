@@ -10,10 +10,10 @@ my Sub %subs;
 role WSPluginComponent {...}
 role WSPluginElement {
     method apply-component-plugin(React::Component $comp) {
-        $comp but WSPluginComponent
+        $comp does WSPluginComponent
     }
     method apply-element-plugin(\element) {
-        element but WSPluginElement
+        element does WSPluginElement
     }
     multi method value(Block $_) {
         my $name = "{.name}-{.WHERE.fmt: "%x"}-{$*PID.fmt: "%x"}-{now.fmt: "%x"}-{(++$).fmt: "%x"}";
@@ -25,7 +25,7 @@ role WSPluginElement {
 
 role WSPluginComponent {
     method apply-element-plugin(\element) {
-        element but WSPluginElement
+        element does WSPluginElement
     }
     method after-set-state(React::Element $ele) {
         say "WSPluginComponent::after-set-state: {$ele}";
@@ -50,7 +50,7 @@ method serve($elem) {
                     <body>
                         {{$elem}}
                     </body>
-                </html> but WSPluginElement)
+                </html> does WSPluginElement)
                 .render
             ;
         }

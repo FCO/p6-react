@@ -1,8 +1,8 @@
-use Component;
-use Styled;
-use Slang;
+use React::Component;
+use React::Styled;
+use React::Slang;
 
-component ButtonStyle does Styled {
+component ButtonStyle does React::Styled {
     has Bool $.wide     = False;
     has Bool $.orange   = False;
     method main is style {

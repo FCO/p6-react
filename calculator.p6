@@ -1,7 +1,7 @@
 use lib "lib";
 use lib "samples/calculator";
 use App;
-use Slang;
-use WSPlugin;
+use React::Slang;
+use React::WSPlugin;
 
-WSPlugin.serve: <App />
+React::WSPlugin.serve: <App />

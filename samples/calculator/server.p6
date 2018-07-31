@@ -1,8 +1,8 @@
-use Slang;
-use Server;
+use React::Slang;
+use React::Server;
 use App;
 
-given Server.new {
+given React::Server.new {
    .add-route: "/calculator", <App />;
    .start
 }

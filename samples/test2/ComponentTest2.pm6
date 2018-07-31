@@ -1,8 +1,8 @@
-use Component;
-use Styled;
-use Slang;
+use React::Component;
+use React::Styled;
+use React::Slang;
 
-component ItemStyle does Styled {
+component ItemStyle does React::Styled {
     method li is style is media("print") {
         qq:to/END/;
         background-color: blue;

@@ -22,7 +22,9 @@ my UInt $id = 1;
 has Str $!className = "{self.^name}-styled-{$*PID.fmt: "%x"}-{now.fmt: "%x"}-{($id++).fmt: "%x"}";
 
 method render {
-    my %wrap = self.^methods.grep(Style).classify: {.?wrapped-by // ""}
+    dd self;
+    dd self.+children;
+    my %wrap = self.^methods.grep(React::Style).classify: {.?wrapped-by // ""}
     React::Element.new:
         :type<div>,
         :pars{
@@ -55,6 +57,6 @@ method render {
                     }
                 ],
             ),
-            |self.children
+            |self.*children
         ]
 }

@@ -27,7 +27,7 @@ role React::Component {
     method render-component {
         my $obj = self.render;
         $obj = self.recursively-apply-plugins-to-element: $obj;
-        $obj.theme = %!theme;
+        $obj.theme = %!theme if $obj.^can: "theme";
         $obj
     }
 }

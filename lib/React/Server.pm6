@@ -6,7 +6,7 @@ unit class React::Server;
 has React::Element %!end-points;
 
 
-method add-route($path, Element $elem) {
+method add-route($path, React::Element $elem) {
     %!end-points{$path} = $elem;
 }
 

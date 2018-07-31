@@ -1,8 +1,8 @@
-use Component;
-use Styled;
-use Slang;
+use React::Component;
+use React::Styled;
+use React::Slang;
 
-component ButtonPanelStyle does Styled {
+component ButtonPanelStyle does React::Styled {
     method main is style {
         qq:to/END/;
         background-color: #858694;
